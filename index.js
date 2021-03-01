@@ -26,57 +26,38 @@ const evresp = (gevent) => {
 
         case "issues":
             return `
-❗️❗️❗️❗️❗️❗️
-        
-Issue ${prstate}
+Issue ${prstate} by \`${iactor}\`
 
-Issue Title and Number  : ${ititle} | #${inum}
+[#${inum} ${ititle}](https://github.com/${repo}/issues/${inum})
 
-Commented or Created By : \`${iactor}\`
+*${ibody}*
 
-Issue Body : *${ibody}*
-
-[Link to Issue](https://github.com/${repo}/issues/${inum})
-[Link to Repo ](https://github.com/${repo}/)
-[Build log here](https://github.com/${repo}/commit/${sha}/checks)`
+_[${repo}](https://github.com/${repo}/)_`
         case "issue_comment":
             return `
-🗣🗣🗣🗣🗣🗣
+Issue ${prstate} by \`${iactor}\`
 
-Issue ${prstate}
+[#${inum} ${ititle}](https://github.com/${repo}/issues/${inum})
 
-Issue Title and Number  : ${ititle} | #${inum}
+Comment on #${inum} ${ititle}
 
-Commented or Created By : \`${iactor}\`
+\`${process.env.INPUT_IU_COM}\`
 
-Issue Body : *${ibody}*
-
-Issue Comment: \`${process.env.INPUT_IU_COM}\`
-
-[Link to Issue](https://github.com/${repo}/issues/${inum})
-[Link to Repo ](https://github.com/${repo}/)
-[Build log here](https://github.com/${repo}/commit/${sha}/checks)
-            `
+_[${repo}](https://github.com/${repo}/)_`
         case "pull_request":
             return `
-🔃🔀🔃🔀🔃🔀
-PR ${prstate} 
+Pull request ${prstate} by ${ghactor}
         
-PR Number:      ${pnum}
+[#${pnum} ${ptitle}](https://github.com/${repo}/pull/${pnum})
         
-PR Title:       ${ptitle}
+*${pbody}*
         
-PR Body:        *${pbody}*
-        
-PR By:          ${ghactor}
-        
-[Link to Issue](https://github.com/${repo}/pull/${pnum})
-[Link to Repo ](https://github.com/${repo}/)
-[Build log here](https://github.com/${repo}/commit/${sha}/checks)`
+_[${repo}](https://github.com/${repo}/)_
+_[Build log](https://github.com/${repo}/commit/${sha}/checks)_
+@the_man_who_sold @sergey_shopik @iBabuk
+`
         case "watch":
             return `
-⭐️⭐️⭐️
-
 By:            *${ghactor}* 
         
 \`Repository:  ${repo}\` 
@@ -85,12 +66,10 @@ Star Count      ${process.env.INPUT_STARGAZERS}
         
 Fork Count      ${process.env.INPUT_FORKERS}
         
-[Link to Repo ](https://github.com/${repo}/)
+[Link to Repo](https://github.com/${repo}/)
             `
         case "schedule":
             return `
-⏱⏰⏱⏰⏱⏰
-        
 ID: ${ghwrkflw}
         
 Run *${ipstatus}!*
@@ -99,25 +78,39 @@ Run *${ipstatus}!*
         
 \`Repository:  ${repo}\` 
         
-[Link to Repo ](https://github.com/${repo}/)
+_[${repo}](https://github.com/${repo}/)_
+            `
+        case "push":
+            return `
+*${ghevent}* on ${process.env.GITHUB_REF} by *${ghactor}* 
+
+_[${repo}](https://github.com/${repo}/)_
+`
+        case "pull_request_review":
+            return `
+*${ghactor}* interact with [#${pnum} ${ptitle}](https://github.com/${repo}/pull/${pnum})
+
+_[${repo}](https://github.com/${repo}/)_
+`
+        case "pull_request_review_comment":
+            return `
+*${ghactor}* [Comment on #${pnum} ${ptitle}](https://github.com/${repo}/pull/${pnum})
+
+_[${repo}](https://github.com/${repo}/)_
             `
         default:
             return `
 ⬆️⇅⬆️⇅
-            
-ID: ${ghwrkflw}
         
-Action was a *${ipstatus}!*
+Action was a *${ipstatus}!* by *${ghactor}* 
         
-\`Repository:  ${repo}\` 
+\`Repository:  [${repo}](https://github.com/${repo}/)\` 
         
 On:          *${ghevent}*
         
-By:            *${ghactor}* 
-        
 Tag:        ${process.env.GITHUB_REF}
         
-[Link to Repo ](https://github.com/${repo}/)
+_[${repo}](https://github.com/${repo}/)_
             `
     }
 }
